@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exam Proctoring Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        .section { margin-bottom: 30px; }
+        .alert { border: 1px solid #f00; padding: 10px; margin-bottom: 5px; border-radius: 5px; background-color: #ffe6e6; }
+        .stat { padding: 10px; border-radius: 5px; background-color: #f2f2f2; margin-bottom: 10px; }
+        #alerts, #stats { max-width: 600px; }
+    </style>
+</head>
+<body>
+    <h1>Exam Proctoring Dashboard</h1>
+
+    <div class="section">
+        <h2>Current Stats</h2>
+        <div id="stats">
+            <div class="stat">Face Detected: <span id="face_detected">Loading...</span></div>
+            <div class="stat">Current Activity: <span id="current_activity">Loading...</span></div>
+            <div class="stat">Cheating Probability: <span id="cheating_probability">Loading...</span>%</div>
+            <div class="stat">Last Alert: <span id="last_alert">Loading...</span></div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Recent Alerts</h2>
+        <div id="alerts">
+            <p>Loading alerts...</p>
+        </div>
+    </div>
+
+    <script>
+        async function fetchStats() {
+            const res = await fetch('/api/stats');
+            const data = await res.json();
+            document.getElementById('face_detected').innerText = data.face_detection ? 'Yes' : 'No';
+            document.getElementById('current_activity').innerText = data.current_activity;
+            document.getElementById('cheating_probability').innerText = data.cheating_probability;
+            document.getElementById('last_alert').innerText = data.last_alert;
+        }
+
+        async function fetchAlerts() {
+            const res = await fetch('/api/alerts');
+            const data = await res.json();
+            const alertsDiv = document.getElementById('alerts');
+            alertsDiv.innerHTML = '';
+            if(data.length === 0) {
+                alertsDiv.innerHTML = '<p>No alerts yet.</p>';
+            } else {
+                data.forEach(alert => {
+                    const div = document.createElement('div');
+                    div.className = 'alert';
+                    div.innerText = alert;
+                    alertsDiv.appendChild(div);
+                });
+            }
+        }
+
+        // Fetch every 2 seconds for live updates
+        setInterval(fetchStats, 2000);
+        setInterval(fetchAlerts, 2000);
+
+        // Initial fetch
+        fetchStats();
+        fetchAlerts();
+    </script>
+</body>
+</html>
