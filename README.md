@@ -66,8 +66,8 @@ This project is licensed under the MIT License.
 
 For questions or feedback, please open an issue or contact:
 
-- Email: your.email@example.com
-- GitHub: [yourusername](https://github.com/khushikumari0202)
+- Email: kk2682117@gmail.com
+- GitHub: [khushikumari0202](https://github.com/khushikumari0202)
 
 ***
 
