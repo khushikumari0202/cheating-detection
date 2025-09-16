@@ -1,5 +1,4 @@
 # cheating-detection
-Here is a sample README template for the "Focus & Object Detection in Video Interviews" project to help get started:
 
 ***
 
